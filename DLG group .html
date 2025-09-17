@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DLG Group App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chat-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .chat-container::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+        .chat-container::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .chat-container::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="fixed inset-0 bg-gray-100 z-[100] flex flex-col items-center justify-center">
+        <div class="text-indigo-500 text-lg font-medium">Authenticating...</div>
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500 mt-4"></div>
+    </div>
+
+    <!-- Public Policy Splash Page (initial view) -->
+    <div id="policy-splash-page" class="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center p-4 text-center">
+        <div class="max-w-xl mx-auto p-8 bg-gray-50 rounded-2xl shadow-xl">
+            <h1 class="text-4xl font-bold text-indigo-800 mb-4">Welcome to DLG Group</h1>
+            <p class="text-lg text-gray-700 mb-8">
+                By continuing, you agree to our **public policy** and acknowledge that all chat conversations are public.
+            </p>
+            <div class="text-left text-sm text-gray-600 space-y-3 mb-8 max-h-[300px] overflow-y-auto p-4 border rounded-xl bg-white shadow-inner">
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Our Policy at a Glance</h3>
+                <p>
+                    - **Public Chat:** All messages in the group chat are visible to everyone. Please be mindful of what you share and do not include any personally identifiable information.
+                </p>
+                <p>
+                    - **Data Storage:** Your anonymous user ID and chat messages are stored to enable real-time communication and testimonial features.
+                </p>
+                <p>
+                    - **Confidentiality:** For sensitive or private matters, please use the provided phone and text numbers to connect with a therapist directly. These conversations are confidential.
+                </p>
+                <p>
+                    - **Anonymity:** You will be assigned a unique, anonymous user ID for the public chat. This ID helps distinguish users but does not tie back to your personal identity.
+                </p>
+            </div>
+            
+            <!-- Consent Button - Initially Visible -->
+            <button id="consent-btn" class="bg-indigo-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-indigo-700 transition-colors w-full mb-4">
+                I Consent and Agree to the Policy
+            </button>
+
+            <!-- Authentication Buttons - Initially Hidden -->
+            <div id="auth-buttons-container" class="hidden flex flex-col space-y-4">
+                <button id="sign-in-btn" class="bg-indigo-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-indigo-700 transition-colors w-full">
+                    Sign In with Google
+                </button>
+                <button id="sign-up-btn" class="bg-white text-indigo-600 font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-gray-100 transition-colors ring-1 ring-inset ring-indigo-600 w-full">
+                    Sign Up with Google
+                </button>
+            </div>
+
+            <p class="mt-4 text-sm text-gray-500">
+                Clicking either button will securely authenticate you with your Google account.
+            </p>
+        </div>
+    </div>
+    
+    <!-- Main Application Container (initially hidden) -->
+    <div id="app-container" class="hidden min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="bg-white shadow-sm sticky top-0 z-50">
+            <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+                <a href="#" class="text-2xl font-bold text-indigo-600 flex items-center" id="logo-btn">
+                    <!-- DLG Group Logo -->
+                    <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 mr-2">
+                        <path d="M50 0C22.386 0 0 22.386 0 50C0 77.614 22.386 100 50 100C77.614 100 100 77.614 100 50C100 22.386 77.614 0 50 0Z" fill="url(#paint0_linear)"/>
+                        <path d="M50 10C27.909 10 10 27.909 10 50C10 72.091 27.909 90 50 90C72.091 90 90 72.091 90 50C90 27.909 72.091 10 50 10Z" fill="url(#paint1_linear)"/>
+                        <path d="M50 30C38.9543 30 30 38.9543 30 50C30 61.0457 38.9543 70 50 70C61.0457 70 70 61.0457 70 50C70 38.9543 61.0457 30 50 30Z" fill="url(#paint2_linear)"/>
+                        <defs>
+                            <linearGradient id="paint0_linear" x1="50" y1="0" x2="50" y2="100" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#3B82F6"/>
+                                <stop offset="1" stop-color="#1E40AF"/>
+                            </linearGradient>
+                            <linearGradient id="paint1_linear" x1="50" y1="10" x2="50" y2="90" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#6366F1"/>
+                                <stop offset="1" stop-color="#4F46E5"/>
+                            </linearGradient>
+                            <linearGradient id="paint2_linear" x1="50" y1="30" x2="50" y2="70" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#4F46E5"/>
+                                <stop offset="1" stop-color="#3730A3"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    DLG Group
+                </a>
+                <div class="flex items-center space-x-4">
+                    <button id="book-now-btn" class="bg-indigo-600 text-white font-semibold py-2 px-6 rounded-full shadow-lg hover:bg-indigo-700 transition-colors">
+                        Book Now
+                    </button>
+                    <div id="user-info-display" class="flex items-center space-x-2">
+                        <img id="user-photo" class="w-8 h-8 rounded-full hidden" src="" alt="User profile photo">
+                        <span id="user-name" class="text-sm text-gray-700"></span>
+                        <button id="sign-out-btn" class="hidden text-sm text-red-500 font-semibold hover:underline">Sign Out</button>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    
+        <!-- Main Content -->
+        <main class="flex-grow p-4">
+            <!-- Main Website Content -->
+            <div id="main-content">
+                <!-- Hero Section -->
+                <section class="bg-gradient-to-r from-blue-100 to-indigo-100 rounded-3xl p-8 md:p-16 text-center shadow-lg mb-8">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-indigo-800 leading-tight mb-4">
+                        Building a Stronger Connection
+                    </h1>
+                    <p class="text-lg md:text-xl text-indigo-700 mb-8 max-w-2xl mx-auto">
+                        Nurture your relationship, resolve conflicts, and find joy together with compassionate and professional guidance.
+                    </p>
+                </section>
+    
+                <!-- About Section -->
+                <section id="about" class="py-8 md:py-16">
+                    <div class="container mx-auto px-4">
+                        <div class="grid md:grid-cols-2 gap-12 items-center">
+                            <div>
+                                <img src="https://placehold.co/600x400/D1D5DB/1F2937?text=About+Us" alt="Couple on a bench" class="rounded-3xl shadow-2xl transform hover:scale-105 transition-transform duration-300">
+                            </div>
+                            <div class="text-center md:text-left">
+                                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Our Philosophy</h2>
+                                <p class="text-gray-600 leading-relaxed mb-4">
+                                    At DLG Group, we believe that every relationship has the potential to thrive. Our approach is rooted in empathy, trust, and proven therapeutic methods. We provide a safe, non-judgmental space for you and your partner to explore challenges, improve communication, and rekindle your connection.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+                <!-- Team Section -->
+                <section id="team" class="py-8 md:py-16">
+                    <div class="container mx-auto px-4">
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-12">Meet Our Team</h2>
+                        <div class="grid md:grid-cols-3 gap-12 text-center items-start">
+                            <div>
+                                <img src="https://placehold.co/200x200/FEE2E2/EF4444?text=Dr.+Drey" alt="Dr. Drey" class="rounded-full mx-auto shadow-xl mb-6">
+                                <h3 class="text-2xl font-semibold text-gray-800 mb-2">Dr. Drey</h3>
+                                <p class="text-gray-600 italic mb-4">Lead Therapist</p>
+                                <p class="text-indigo-600 font-semibold mb-4">+234 807 073 2171</p>
+                                <p class="text-gray-600 leading-relaxed">
+                                    Dr. Drey is an experienced counselor with a passion for helping couples improve communication and rebuild intimacy.
+                                </p>
+                            </div>
+                            <div>
+                                <img src="https://placehold.co/200x200/DBEAFE/1E40AF?text=Miss+Loretha" alt="Miss Loretha" class="rounded-full mx-auto shadow-xl mb-6">
+                                <h3 class="text-2xl font-semibold text-gray-800 mb-2">Miss Loretha</h3>
+                                <p class="text-gray-600 italic mb-4">Clinical Counselor</p>
+                                <p class="text-indigo-600 font-semibold mb-4">+234 707 392 9925</p>
+                                <p class="text-gray-600 leading-relaxed">
+                                    Miss Loretha specializes in family dynamics and individual counseling. She is dedicated to helping clients navigate personal challenges.
+                                </p>
+                            </div>
+                            <div>
+                                <img src="https://placehold.co/200x200/D1FAE5/047857?text=Miss+Glory" alt="Miss Glory" class="rounded-full mx-auto shadow-xl mb-6">
+                                <h3 class="text-2xl font-semibold text-gray-800 mb-2">Miss Glory</h3>
+                                <p class="text-gray-600 italic mb-4">Relationship Specialist</p>
+                                <p class="text-indigo-600 font-semibold mb-4">+234 704 078 2941</p>
+                                <p class="text-gray-600 leading-relaxed">
+                                    Miss Glory is a dedicated relationship specialist focused on pre-marital counseling and conflict resolution.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+                <!-- Testimonials Section -->
+                <section id="testimonials" class="py-8 md:py-16 bg-gray-50">
+                    <div class="container mx-auto px-4">
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-12">What Our Clients Say</h2>
+                        <div id="testimonials-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <!-- Testimonials will be dynamically added here -->
+                        </div>
+                        <div class="mt-12 max-w-xl mx-auto bg-white rounded-xl shadow-lg p-8">
+                            <h3 class="text-2xl font-bold text-gray-800 text-center mb-6">Share Your Experience</h3>
+                            <form id="testimonial-form" class="space-y-4">
+                                <div>
+                                    <label for="testimonial-name" class="block text-sm font-medium text-gray-700">Name</label>
+                                    <input type="text" id="testimonial-name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2" required>
+                                </div>
+                                <div>
+                                    <label for="testimonial-message" class="block text-sm font-medium text-gray-700">Testimonial</label>
+                                    <textarea id="testimonial-message" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2" required></textarea>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-indigo-700 transition-colors">
+                                        Submit Testimonial
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+    
+                <!-- Live Chat Section -->
+                <section id="chat" class="py-8 md:py-16">
+                    <div class="container mx-auto px-4">
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-12">Group Chat</h2>
+                        <div class="bg-white rounded-xl shadow-lg flex flex-col h-[70vh] max-h-[800px]">
+                            <div id="messages-container" class="flex-1 overflow-y-auto p-4 space-y-4 chat-container">
+                                <!-- Messages will be dynamically added here -->
+                            </div>
+                            <!-- Message Input Form -->
+                            <form id="chat-form" class="p-4 bg-white shadow-lg flex items-center rounded-b-xl">
+                                <input
+                                    type="text"
+                                    id="message-input"
+                                    class="flex-1 p-3 rounded-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                                    placeholder="Type a message..."
+                                />
+                                <button
+                                    type="submit"
+                                    class="ml-3 p-3 bg-indigo-600 text-white rounded-full shadow-lg hover:bg-indigo-700 transition-colors"
+                                >
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+    
+            <!-- Contact Page (initially hidden) -->
+            <div id="contact-page" class="hidden min-h-[60vh] flex items-center justify-center">
+                <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 text-center max-w-2xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-indigo-800 mb-6">Connect with a Therapist</h2>
+                    <p class="text-gray-600 mb-8 max-w-lg mx-auto">
+                        Choose one of our specialists below to book a session or ask a question.
+                    </p>
+                    <div class="space-y-6">
+                        <!-- Dr. Drey Contact Card -->
+                        <div class="bg-blue-50 rounded-xl p-6 shadow-md">
+                            <h3 class="text-2xl font-semibold text-gray-800">Dr. Drey</h3>
+                            <div class="mt-4 flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-4">
+                                <a href="tel:+2348070732171" class="bg-indigo-600 text-white py-2 px-6 rounded-full font-medium hover:bg-indigo-700 transition-colors">Call</a>
+                                <a href="sms:+2348070732171" class="bg-white text-indigo-600 py-2 px-6 rounded-full font-medium ring-1 ring-inset ring-indigo-600 hover:bg-gray-100 transition-colors">Text</a>
+                            </div>
+                        </div>
+                        <!-- Miss Loretha Contact Card -->
+                        <div class="bg-blue-50 rounded-xl p-6 shadow-md">
+                            <h3 class="text-2xl font-semibold text-gray-800">Miss Loretha</h3>
+                            <div class="mt-4 flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-4">
+                                <a href="tel:+2347073929925" class="bg-indigo-600 text-white py-2 px-6 rounded-full font-medium hover:bg-indigo-700 transition-colors">Call</a>
+                                <a href="sms:+2347073929925" class="bg-white text-indigo-600 py-2 px-6 rounded-full font-medium ring-1 ring-inset ring-indigo-600 hover:bg-gray-100 transition-colors">Text</a>
+                            </div>
+                        </div>
+                        <!-- Miss Glory Contact Card -->
+                        <div class="bg-blue-50 rounded-xl p-6 shadow-md">
+                            <h3 class="text-2xl font-semibold text-gray-800">Miss Glory</h3>
+                            <div class="mt-4 flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-4">
+                                <a href="tel:+2347040782941" class="bg-indigo-600 text-white py-2 px-6 rounded-full font-medium hover:bg-indigo-700 transition-colors">Call</a>
+                                <a href="sms:+2347040782941" class="bg-white text-indigo-600 py-2 px-6 rounded-full font-medium ring-1 ring-inset ring-indigo-600 hover:bg-gray-100 transition-colors">Text</a>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="contact-go-back-btn" class="mt-8 text-indigo-600 font-semibold hover:underline">Go back to the website</button>
+                </div>
+            </div>
+    
+            <!-- Customer Service Policy Page (initially hidden) -->
+            <div id="policy-page" class="hidden min-h-[60vh] flex items-center justify-center py-8">
+                <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 text-center max-w-4xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-indigo-800 mb-6">Customer Service Policy</h2>
+                    <div class="text-left text-gray-700 space-y-6">
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Our Commitment</h3>
+                            <p class="leading-relaxed">
+                                At DLG Group, we are dedicated to providing compassionate, respectful, and effective service to all our clients. Our goal is to create a supportive and confidential environment where you feel heard and valued. We are committed to transparency and will always act in your best interest.
+                            </p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Communication Standards</h3>
+                            <p class="leading-relaxed">
+                                We offer several ways to connect with us, ensuring you can reach out in a way that is most comfortable for you. You can contact our therapists directly via phone call or text message using the numbers provided on our website. Our team strives to respond to all inquiries within **24-48 hours**. We ask for your patience, as the nature of our work sometimes requires immediate attention to clients in session.
+                            </p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Confidentiality and Privacy</h3>
+                            <p class="leading-relaxed">
+                                Your privacy is our utmost priority. All conversations, whether through phone, text, or our group chat, are treated with the highest level of confidentiality. We adhere to strict ethical guidelines to protect your personal information and the details of your sessions. We will never share your information without your explicit consent, except as required by law to ensure the safety of our clients or others.
+                            </p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Feedback and Complaints</h3>
+                            <p class="leading-relaxed">
+                                Your feedback is vital for our continuous improvement. If you have any concerns or wish to provide feedback on our services, we encourage you to do so directly by reaching out to us. We will address all matters promptly and fairly to find a resolution that honors your trust in us. Our commitment is to listen, learn, and grow alongside our clients.
+                            </p>
+                        </div>
+                    </div>
+                    <button id="policy-go-back-btn" class="mt-8 text-indigo-600 font-semibold hover:underline">Go back to the website</button>
+                </div>
+            </div>
+        </main>
+    
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white py-8 mt-auto" id="contact-footer">
+            <div class="container mx-auto px-4 text-center md:text-left">
+                <div class="grid md:grid-cols-3 gap-8 items-center">
+                    <div class="md:col-span-1">
+                        <h4 class="text-2xl font-bold mb-2">DLG Group</h4>
+                        <p class="text-gray-400">Nurturing your relationships.</p>
+                    </div>
+                    <div class="md:col-span-1 text-center">
+                        <a href="#" id="policy-link" class="text-gray-400 hover:text-white transition-colors">Customer Service Policy</a>
+                    </div>
+                    <div class="md:col-span-1 text-center md:text-right">
+                        <p class="text-gray-400 mb-2 flex items-center justify-center md:justify-end">
+                            Miss Glory: +234 704 078 2941
+                            <a href="https://wa.me/2347040782941" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp chat with Miss Glory">
+                                <svg class="ml-2 w-4 h-4 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M380.9 97.1C339.4 56.5 282.7 34 224.5 34c-126.3 0-229 102.7-229 229 0 40.5 10.4 79 30.2 113.8l-32.5 101.4 104.7-31.9c32.7 17.9 69.5 27.2 107.6 27.2h.5c126.3 0 229-102.7 229-229 0-58.1-21.6-114.3-64.8-155.9zM224.5 450.4c-35.4 0-69.3-9.6-98.3-27.8l-72.3 22.1 22.5-69.5c-19.3-31.4-29.2-66.2-29.2-102.7 0-101.8 82.7-184.5 184.5-184.5s184.5 82.7 184.5 184.5c0 101.8-82.7 184.5-184.5 184.5zM337.3 323.7c-5.7-2.9-33.8-16.7-39-18.7-5.2-2-9-3-12.9-3s-10.4 1.3-15.3 4.6c-4.9 3.3-19 18.7-23.2 22.5-4.2 3.9-8.4 4.4-15.7 1.1s-30.7-11.3-58.5-36.1c-21.7-19-36.4-42.5-38.4-46.1-2-3.6-.2-5.5 1.7-7.4 1.8-1.8 4.2-4.6 6.3-6.9 2.1-2.3 2.8-4 4.2-7.4 1.4-3.4.7-6.5-.4-9.1s-12.9-30.9-17.7-42.3c-4.8-11.4-9.6-9.8-12.9-9.8s-7-2.9-9.5-2.9c-2.6 0-5.7.4-8.7.4s-5.7 1.3-8.7 4.2c-3 3-11.4 11.2-11.4 27.2s11.7 33.3 13.3 35.7c1.6 2.4 22.9 36.6 55.6 74.3 32.7 37.7 61.3 52 69.1 56.4 7.8 4.4 14.5 3.8 20.3 2.3 5.8-1.5 33.8-13.8 38.6-27.2s4.8-25.2 3.4-27.7c-1.4-2.5-5.2-4-10.9-6.9z"/></svg>
+                            </a>
+                        </p>
+                        <p class="text-gray-400 mb-2 flex items-center justify-center md:justify-end">
+                            Miss Loretha: +234 707 392 9925
+                            <a href="https://wa.me/2347073929925" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp chat with Miss Loretha">
+                                <svg class="ml-2 w-4 h-4 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M380.9 97.1C339.4 56.5 282.7 34 224.5 34c-126.3 0-229 102.7-229 229 0 40.5 10.4 79 30.2 113.8l-32.5 101.4 104.7-31.9c32.7 17.9 69.5 27.2 107.6 27.2h.5c126.3 0 229-102.7 229-229 0-58.1-21.6-114.3-64.8-155.9zM224.5 450.4c-35.4 0-69.3-9.6-98.3-27.8l-72.3 22.1 22.5-69.5c-19.3-31.4-29.2-66.2-29.2-102.7 0-101.8 82.7-184.5 184.5-184.5s184.5 82.7 184.5 184.5c0 101.8-82.7 184.5-184.5 184.5zM337.3 323.7c-5.7-2.9-33.8-16.7-39-18.7-5.2-2-9-3-12.9-3s-10.4 1.3-15.3 4.6c-4.9 3.3-19 18.7-23.2 22.5-4.2 3.9-8.4 4.4-15.7 1.1s-30.7-11.3-58.5-36.1c-21.7-19-36.4-42.5-38.4-46.1-2-3.6-.2-5.5 1.7-7.4 1.8-1.8 4.2-4.6 6.3-6.9 2.1-2.3 2.8-4 4.2-7.4 1.4-3.4.7-6.5-.4-9.1s-12.9-30.9-17.7-42.3c-4.8-11.4-9.6-9.8-12.9-9.8s-7-2.9-9.5-2.9c-2.6 0-5.7.4-8.7.4s-5.7 1.3-8.7 4.2c-3 3-11.4 11.2-11.4 27.2s11.7 33.3 13.3 35.7c1.6 2.4 22.9 36.6 55.6 74.3 32.7 37.7 61.3 52 69.1 56.4 7.8 4.4 14.5 3.8 20.3 2.3 5.8-1.5 33.8-13.8 38.6-27.2s4.8-25.2 3.4-27.7c-1.4-2.5-5.2-4-10.9-6.9z"/></svg>
+                            </a>
+                        </p>
+                        <p class="text-gray-400 flex items-center justify-center md:justify-end">
+                            Dr. Drey: +234 807 073 2171
+                            <a href="https://wa.me/2348070732171" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp chat with Dr. Drey">
+                                <svg class="ml-2 w-4 h-4 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M380.9 97.1C339.4 56.5 282.7 34 224.5 34c-126.3 0-229 102.7-229 229 0 40.5 10.4 79 30.2 113.8l-32.5 101.4 104.7-31.9c32.7 17.9 69.5 27.2 107.6 27.2h.5c126.3 0 229-102.7 229-229 0-58.1-21.6-114.3-64.8-155.9zM224.5 450.4c-35.4 0-69.3-9.6-98.3-27.8l-72.3 22.1 22.5-69.5c-19.3-31.4-29.2-66.2-29.2-102.7 0-101.8 82.7-184.5 184.5-184.5s184.5 82.7 184.5 184.5c0 101.8-82.7 184.5-184.5 184.5zM337.3 323.7c-5.7-2.9-33.8-16.7-39-18.7-5.2-2-9-3-12.9-3s-10.4 1.3-15.3 4.6c-4.9 3.3-19 18.7-23.2 22.5-4.2 3.9-8.4 4.4-15.7 1.1s-30.7-11.3-58.5-36.1c-21.7-19-36.4-42.5-38.4-46.1-2-3.6-.2-5.5 1.7-7.4 1.8-1.8 4.2-4.6 6.3-6.9 2.1-2.3 2.8-4 4.2-7.4 1.4-3.4.7-6.5-.4-9.1s-12.9-30.9-17.7-42.3c-4.8-11.4-9.6-9.8-12.9-9.8s-7-2.9-9.5-2.9c-2.6 0-5.7.4-8.7.4s-5.7 1.3-8.7 4.2c-3 3-11.4 11.2-11.4 27.2s11.7 33.3 13.3 35.7c1.6 2.4 22.9 36.6 55.6 74.3 32.7 37.7 61.3 52 69.1 56.4 7.8 4.4 14.5 3.8 20.3 2.3 5.8-1.5 33.8-13.8 38.6-27.2s4.8-25.2 3.4-27.7c-1.4-2.5-5.2-4-10.9-6.9z"/></svg>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <div class="text-center mt-8 text-sm text-gray-500">
+                    &copy; 2025 DLG Group. All rights reserved.
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const loadingScreen = document.getElementById('loading-screen');
+        const policySplashPage = document.getElementById('policy-splash-page');
+        const appContainer = document.getElementById('app-container');
+        const mainContent = document.getElementById('main-content');
+        const contactPage = document.getElementById('contact-page');
+        const policyPage = document.getElementById('policy-page');
+
+        const consentBtn = document.getElementById('consent-btn');
+        const authButtonsContainer = document.getElementById('auth-buttons-container');
+        const signInBtn = document.getElementById('sign-in-btn');
+        const signUpBtn = document.getElementById('sign-up-btn');
+        const signOutBtn = document.getElementById('sign-out-btn');
+        const bookNowBtn = document.getElementById('book-now-btn');
+        const contactGoBackBtn = document.getElementById('contact-go-back-btn');
+        const policyLink = document.getElementById('policy-link');
+        const policyGoBackBtn = document.getElementById('policy-go-back-btn');
+        const logoBtn = document.getElementById('logo-btn');
+
+        let db, auth, currentUser = null;
+
+        // Helper function to get initials for avatars
+        function getInitials(name) {
+            if (!name) return '??';
+            const parts = name.split(' ');
+            if (parts.length > 1) {
+                return parts[0][0] + parts[1][0];
+            }
+            return name[0];
+        }
+
+        // Helper function to manage page visibility
+        function showPage(pageId) {
+            mainContent.classList.add('hidden');
+            contactPage.classList.add('hidden');
+            policyPage.classList.add('hidden');
+
+            if (pageId === 'main') {
+                mainContent.classList.remove('hidden');
+            } else if (pageId === 'contact') {
+                contactPage.classList.remove('hidden');
+            } else if (pageId === 'policy') {
+                policyPage.classList.remove('hidden');
+            }
+        }
+
+        async function initFirebase() {
+            try {
+                const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+                const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+                
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                // Handle the redirect result immediately on page load
+                try {
+                    const result = await getRedirectResult(auth);
+                    if (result) {
+                        console.log("Redirect result:", result);
+                    }
+                } catch (error) {
+                    console.error("Error during redirect result:", error);
+                }
+
+                // Listen for authentication state changes to manage UI
+                onAuthStateChanged(auth, (user) => {
+                    currentUser = user;
+                    if (user) {
+                        const displayName = user.displayName;
+                        const userPhotoUrl = user.photoURL;
+                        document.getElementById('user-name').textContent = displayName || 'Anonymous';
+                        if (userPhotoUrl) {
+                            document.getElementById('user-photo').src = userPhotoUrl;
+                            document.getElementById('user-photo').classList.remove('hidden');
+                        }
+                        signOutBtn.classList.remove('hidden');
+                        
+                        startListeners();
+                        loadingScreen.classList.add('hidden');
+                        policySplashPage.classList.add('hidden');
+                        appContainer.classList.remove('hidden');
+                    } else {
+                        document.getElementById('user-name').textContent = '';
+                        document.getElementById('user-photo').classList.add('hidden');
+                        signOutBtn.classList.add('hidden');
+                        
+                        loadingScreen.classList.add('hidden');
+                        policySplashPage.classList.remove('hidden');
+                        appContainer.classList.add('hidden');
+                    }
+                });
+            } catch (e) {
+                console.error("Firebase initialization failed:", e);
+                loadingScreen.classList.add('hidden');
+            }
+        }
+        
+        async function signInWithGoogle() {
+            loadingScreen.classList.remove('hidden');
+            try {
+                const provider = new GoogleAuthProvider();
+                await signInWithRedirect(auth, provider);
+            } catch (error) {
+                console.error("Google sign-in failed:", error);
+                loadingScreen.classList.add('hidden');
+            }
+        }
+
+        async function handleSignOut() {
+            await signOut(auth);
+        }
+
+        function startListeners() {
+            // Live chat listener
+            const messagesContainer = document.getElementById('messages-container');
+            const messagesQuery = query(collection(db, `artifacts/${typeof __app_id !== 'undefined' ? __app_id : 'default-app-id'}/public/data/messages`), orderBy('timestamp'));
+            
+            onSnapshot(messagesQuery, (snapshot) => {
+                messagesContainer.innerHTML = '';
+                snapshot.docs.forEach(doc => {
+                    const message = doc.data();
+                    const isCurrentUser = message.userId === currentUser.uid;
+                    const messageElement = document.createElement('div');
+                    messageElement.className = `flex items-start ${isCurrentUser ? 'justify-end' : 'justify-start'}`;
+                    messageElement.innerHTML = `
+                        <div class="max-w-xs md:max-w-md p-3 rounded-lg shadow-md ${isCurrentUser ? 'bg-indigo-500 text-white rounded-br-none' : 'bg-gray-200 text-gray-800 rounded-bl-none'}">
+                            <div class="text-xs ${isCurrentUser ? 'text-gray-300' : 'text-gray-500'} mb-1">
+                                ${message.userName || 'Anonymous'}
+                            </div>
+                            <p>${message.text}</p>
+                        </div>
+                    `;
+                    messagesContainer.appendChild(messageElement);
+                });
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            });
+
+            // Testimonials listener
+            const testimonialsContainer = document.getElementById('testimonials-container');
+            const testimonialsQuery = query(collection(db, `artifacts/${typeof __app_id !== 'undefined' ? __app_id : 'default-app-id'}/public/data/testimonials`), orderBy('timestamp', 'desc'));
+            
+            onSnapshot(testimonialsQuery, (snapshot) => {
+                testimonialsContainer.innerHTML = '';
+                snapshot.docs.forEach(doc => {
+                    const testimonial = doc.data();
+                    const testimonialElement = document.createElement('div');
+                    testimonialElement.className = "bg-white rounded-xl shadow-lg p-8 flex flex-col items-center text-center";
+                    testimonialElement.innerHTML = `
+                        <div class="w-20 h-20 bg-indigo-500 rounded-full flex items-center justify-center mb-4 text-white text-3xl font-bold">
+                            ${getInitials(testimonial.name)}
+                        </div>
+                        <p class="text-lg text-gray-600 italic mb-4">"${testimonial.message}"</p>
+                        <p class="font-semibold text-gray-800">- ${testimonial.name}</p>
+                    `;
+                    testimonialsContainer.appendChild(testimonialElement);
+                });
+            });
+        }
+        
+        // Event Listeners for navigation and auth
+        bookNowBtn.addEventListener('click', () => showPage('contact'));
+        contactGoBackBtn.addEventListener('click', () => showPage('main'));
+        policyLink.addEventListener('click', () => showPage('policy'));
+        policyGoBackBtn.addEventListener('click', () => showPage('main'));
+        logoBtn.addEventListener('click', () => showPage('main'));
+        
+        // New consent flow
+        consentBtn.addEventListener('click', () => {
+            consentBtn.classList.add('hidden');
+            authButtonsContainer.classList.remove('hidden');
+        });
+
+        // Listen for clicks on both sign-in and sign-up buttons
+        signInBtn.addEventListener('click', signInWithGoogle);
+        signUpBtn.addEventListener('click', signInWithGoogle);
+        
+        signOutBtn.addEventListener('click', handleSignOut);
+
+        // Handle message form submission
+        document.getElementById('chat-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const messageInput = document.getElementById('message-input');
+            const messageText = messageInput.value.trim();
+
+            if (messageText && currentUser) {
+                try {
+                    await addDoc(collection(db, `artifacts/${typeof __app_id !== 'undefined' ? __app_id : 'default-app-id'}/public/data/messages`), {
+                        text: messageText,
+                        userId: currentUser.uid,
+                        userName: currentUser.displayName,
+                        timestamp: serverTimestamp(),
+                    });
+                    messageInput.value = '';
+                } catch (e) {
+                    console.error("Error adding message:", e);
+                }
+            }
+        });
+
+        // Handle testimonial form submission
+        document.getElementById('testimonial-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const nameInput = document.getElementById('testimonial-name');
+            const messageInput = document.getElementById('testimonial-message');
+            const testimonialName = nameInput.value.trim();
+            const testimonialMessage = messageInput.value.trim();
+
+            if (testimonialName && testimonialMessage) {
+                try {
+                    await addDoc(collection(db, `artifacts/${typeof __app_id !== 'undefined' ? __app_id : 'default-app-id'}/public/data/testimonials`), {
+                        name: testimonialName,
+                        message: testimonialMessage,
+                        timestamp: serverTimestamp(),
+                    });
+                    nameInput.value = '';
+                    messageInput.value = '';
+                } catch (e) {
+                    console.error("Error adding testimonial:", e);
+                }
+            }
+        });
+
+        window.onload = () => {
+            initFirebase();
+        };
+    </script>
+</body>
+</html>
+
