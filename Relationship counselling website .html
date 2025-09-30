@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veritas Bond | Relationships Counseling</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind to use a soothing color palette and the Inter font -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#4f46e5', // Indigo 600
+                        'secondary': '#6366f1', // Indigo 500
+                        'background-light': '#f9fafb', // Gray 50
+                        'text-dark': '#1f2937', // Gray 800
+                        'accent-soft': '#eef2ff', // Indigo 50
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Inter Font Link -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Custom smooth scroll for navigation */
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Style for the subtle shadow and rounded corners */
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="font-sans bg-background-light text-text-dark">
+
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-white card-shadow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            
+            <!-- Logo and Site Name Group (UPDATED to use image) -->
+            <div class="flex items-center">
+                <!-- START Image Logo -->
+                <img src="1000484329.jpg" alt="Veritas Bond Relationships Counseling Logo" class="h-10 w-auto">
+                <!-- END Image Logo -->
+            </div>
+            <!-- END Logo and Site Name Group -->
+            
+            <nav class="hidden md:flex space-x-8">
+                <a href="#services" class="text-text-dark hover:text-primary transition duration-150">Services</a>
+                <a href="#approach" class="text-text-dark hover:text-primary transition duration-150">Our Approach</a>
+                <a href="#team" class="text-text-dark hover:text-primary transition duration-150">Our Team</a>
+                <a href="#contact" class="text-text-dark hover:text-primary transition duration-150">Book Now</a>
+            </nav>
+            <!-- Mobile Menu Button (Hamburger Icon) -->
+            <button id="mobile-menu-button" class="md:hidden text-text-dark focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white px-4 pb-3 space-y-2 border-t">
+            <a href="#services" class="block py-2 text-text-dark hover:bg-accent-soft rounded-lg transition duration-150">Services</a>
+            <a href="#approach" class="block py-2 text-text-dark hover:bg-accent-soft rounded-lg transition duration-150">Our Approach</a>
+            <a href="#team" class="block py-2 text-text-dark hover:bg-accent-soft rounded-lg transition duration-150">Our Team</a>
+            <a href="#contact" class="block py-2 text-primary font-semibold hover:bg-accent-soft rounded-lg transition duration-150">Book a Session</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-16 md:py-24 bg-accent-soft">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-primary mb-4 leading-tight">
+                Strengthen Your Bond. Transform Your Relationship.
+            </h2>
+            <p class="text-lg text-text-dark max-w-3xl mx-auto mb-8">
+                We provide compassionate, evidence-based counseling to help couples, families, and individuals navigate challenges and build deeper, more resilient connections.
+            </p>
+            <a href="#contact" class="inline-block px-10 py-4 text-xl font-semibold text-white bg-primary rounded-full hover:bg-secondary transition duration-300 transform hover:scale-105 shadow-lg">
+                Start Your Journey Today
+            </a>
+            <p class="mt-4 text-sm text-gray-500">Confidential | In-person & Online Sessions Available</p>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-16 md:py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h3 class="text-3xl font-bold text-center text-text-dark mb-12">How We Can Help You Connect</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Service 1: Couples Therapy -->
+                <div class="bg-white p-6 rounded-xl card-shadow text-center transform transition duration-300 hover:scale-[1.02]">
+                    <div class="text-primary mx-auto w-12 h-12 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-semibold mb-2">Couples Therapy</h4>
+                    <p class="text-gray-600">Resolve conflicts, improve communication, and rebuild trust with guided therapy sessions designed for two.</p>
+                </div>
+
+                <!-- Service 2: Pre-Marital Counseling -->
+                <div class="bg-white p-6 rounded-xl card-shadow text-center transform transition duration-300 hover:scale-[1.02]">
+                    <div class="text-primary mx-auto w-12 h-12 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.826c-.781 1.253-2.27 2.373-3.921 2.82l-.01.002c-1.34.358-2.55-.262-3.13-1.688l-.013-.037c-.206-.474-.252-.946-.226-1.365L4.56 1.15c.178-.456.757-.655 1.107-.468l1.492.83c.094.053.189.057.283.011l2.427-1.29a.87.87 0 0 1 .931.328l.349.524c.058.087.053.197-.015.276L8.85 4.565v.002c-.88.948-1.574 2.126-1.574 3.256V11H5.167A2.167 2.167 0 0 0 3 13.167V18a2.167 2.167 0 0 0 2.167 2.167h.833V22h2v-1.833h4V22h2v-1.833h.833A2.167 2.167 0 0 0 17 18v-4.833h-1.667c-.88 0-1.66.52-2.015 1.348l-1.01.037c-.378.014-.722-.224-.878-.584l-.19-.46c-.198-.466-.677-.736-1.166-.64z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 9-.707.707a1 1 0 0 0 0 1.414L19.5 12" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m22.5 9-1.414 1.414a1 1 0 0 0 0 1.414L22.5 12" />
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-semibold mb-2">Pre-Marital Counseling</h4>
+                    <p class="text-gray-600">Lay a strong foundation for your future by discussing key topics, expectations, and conflict resolution strategies.</p>
+                </div>
+
+                <!-- Service 3: Individual Relationship Coaching -->
+                <div class="bg-white p-6 rounded-xl card-shadow text-center transform transition duration-300 hover:scale-[1.02]">
+                    <div class="text-primary mx-auto w-12 h-12 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 19.5a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 0 12 17.25a17.933 17.933 0 0 0-7.499 2.25Z" />
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-semibold mb-2">Individual Coaching</h4>
+                    <p class="text-gray-600">Focus on your personal patterns, attachment styles, and communication skills to succeed in all your relationships.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Approach Section -->
+    <section id="approach" class="py-16 md:py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h3 class="text-3xl font-bold text-center text-text-dark mb-12">Our Compassionate Approach</h3>
+            <div class="max-w-4xl mx-auto space-y-8">
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0 text-primary mt-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-semibold mb-1">Evidence-Based Methods</h4>
+                        <p class="text-gray-600">We utilize proven therapeutic modalities like **Emotionally Focused Therapy (EFT)** and **Gottman Method** to create lasting change.</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0 text-primary mt-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 0 0 9-9c0-3.8-2-7.2-5-9.1m-2-1.9a.5.5 0 1 1 1 0v.5m-3 0a.5.5 1 0 1 1 1 0V3m-3 0a.5.5 1 0 1 1 1 0v.5M5.6 5.6a.5.5 0 1 1 .7.7l-.5.5m0-1.2a.5.5 1 0 1 1 .7.7l.5-.5M18.4 5.6a.5.5 1 0 1 1-.7.7l.5.5m0-1.2a.5.5 1 0 1 1 .7.7l-.5-.5M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-semibold mb-1">Non-Judgmental & Safe Space</h4>
+                        <p class="text-gray-600">Your story is safe here. We foster an environment of complete acceptance and confidentiality, allowing you to be vulnerable.</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0 text-primary mt-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-semibold mb-1">Focus on Long-Term Health</h4>
+                        <p class="text-gray-600">We don't just solve immediate problems; we equip you with practical tools to maintain a thriving relationship long after therapy ends.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Meet the Team (Mock Profiles) -->
+    <section id="team" class="py-16 md:py-20 bg-accent-soft">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h3 class="text-3xl font-bold text-center text-text-dark mb-12">Meet Our Specialists</h3>
+            <!-- Updated Grid to fit 4 profiles across two rows on desktop -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+                <!-- Therapist 1: Dr Drey -->
+                <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                    <img src="https://placehold.co/128x128/6366f1/ffffff?text=D.D." 
+                         class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-primary/50" 
+                         alt="Therapist Profile Image">
+                    <h4 class="text-xl font-bold text-primary mb-1">Dr. Drey, LMFT</h4>
+                    <p class="text-sm text-gray-500 mb-4">Lead Couples & Family Therapist</p>
+                    <p class="text-gray-600 text-sm">Dr. Drey specializes in Emotionally Focused Therapy (EFT) and helping couples reconnect after major life transitions. She is dedicated to creating secure, loving attachments.</p>
+                </div>
+                
+                <!-- Therapist 2: Dr Tobs -->
+                <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                    <img src="https://placehold.co/128x128/4f46e5/ffffff?text=D.T." 
+                         class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-primary/50" 
+                         alt="Therapist Profile Image">
+                    <h4 class="text-xl font-bold text-primary mb-1">Dr. Tobs, LCSW</h4>
+                    <p class="text-sm text-gray-500 mb-4">Individual & Pre-Marital Coach</p>
+                    <p class="text-gray-600 text-sm">Dr. Tobs brings a practical, goal-oriented approach, focusing on communication skills and helping individuals break negative relationship patterns. Certified in Gottman Level 2.</p>
+                </div>
+
+                <!-- Therapist 3: Dr Glory -->
+                <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                    <img src="https://placehold.co/128x128/3f72af/ffffff?text=D.G." 
+                         class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-primary/50" 
+                         alt="Therapist Profile Image">
+                    <h4 class="text-xl font-bold text-primary mb-1">Dr. Glory, PhD, LPC</h4>
+                    <p class="text-sm text-gray-500 mb-4">Trauma-Informed & Family Systems</p>
+                    <p class="text-gray-600 text-sm">Dr. Glory specializes in helping individuals and couples heal from relationship trauma and navigate complex family system dynamics with a focus on holistic wellness.</p>
+                </div>
+
+                <!-- Therapist 4: Dr Loretha -->
+                <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                    <img src="https://placehold.co/128x128/9333ea/ffffff?text=D.L." 
+                         class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-primary/50" 
+                         alt="Therapist Profile Image">
+                    <h4 class="text-xl font-bold text-primary mb-1">Dr. Loretha, MA, MFT</h4>
+                    <p class="text-sm text-gray-500 mb-4">Conflict Resolution Specialist</p>
+                    <p class="text-gray-600 text-sm">Dr. Loretha excels at teaching structured techniques for conflict resolution, emotional regulation, and helping co-parenting couples establish healthy boundaries.</p>
+                </div>
+            </div>
+            <div class="text-center mt-8">
+                 <a href="#contact" class="text-primary font-medium hover:underline">View appointment availability &rarr;</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking/Contact Form Section -->
+    <section id="contact" class="py-16 md:py-20">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h3 class="text-3xl font-bold text-center text-text-dark mb-12">Ready to Take the Next Step?</h3>
+            <div class="bg-white p-8 md:p-10 rounded-xl card-shadow border border-primary/10">
+                <p class="text-center text-gray-600 mb-6">Request a free 15-minute consultation to find the right fit with our team.</p>
+                
+                <!-- Mock Form -->
+                <!-- IMPORTANT DEPLOYMENT NOTE: For live functionality, replace the 'action' attribute URL below with the actual endpoint provided by your form service (like Formspree or Netlify Forms) after you configure it to send data to: inbox.jeremypierce@gmail.com -->
+                <form action="https://formspree.io/f/YOUR_UNIQUE_FORM_ID_HERE" method="POST" class="space-y-4">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700">Your Full Name</label>
+                        <input type="text" id="name" name="name" required class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring-primary p-3 border">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                        <input type="email" id="email" name="email" required class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring-primary p-3 border">
+                    </div>
+                    <div>
+                        <label for="service" class="block text-sm font-medium text-gray-700">Interested Service</label>
+                        <select id="service" name="service" required class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring-primary p-3 border bg-white">
+                            <option value="">Select a Service...</option>
+                            <option value="Couples Therapy">Couples Therapy</option>
+                            <option value="Pre-Marital Counseling">Pre-Marital Counseling</option>
+                            <option value="Individual Coaching">Individual Coaching</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-gray-700">Brief Message</label>
+                        <textarea id="message" name="message" rows="3" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring-primary p-3 border"></textarea>
+                    </div>
+                    <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-md text-base font-semibold text-white bg-primary hover:bg-secondary transition duration-300 transform hover:scale-[1.01]">
+                        Request Consultation
+                    </button>
+                </form>
+
+                <!-- Confirmation/Error Message Box (Instead of alert()) -->
+                <div id="status-message" class="mt-4 p-3 hidden rounded-lg text-center font-medium"></div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-text-dark py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-300">
+            <h5 class="text-xl font-bold text-white mb-2">Veritas Bond</h5>
+            <p class="text-sm">Confidential Relationship Counseling & Coaching</p>
+            <div class="mt-4 space-x-4">
+                <!-- Only Email Us remains, directed to your preferred email -->
+                <a href="mailto:inbox.jeremypierce@gmail.com" class="text-gray-400 hover:text-white transition duration-150">Email Us</a>
+                <!-- Phone number removed as requested -->
+            </div>
+            <p class="mt-6 text-xs text-gray-500">&copy; 2025 Veritas Bond. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.querySelector('form');
+            const statusMessage = document.getElementById('status-message');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            // --- Mobile Menu Toggle Logic ---
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when a link is clicked
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // --- Form Submission Simulation (No actual sending) ---
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                
+                // Simulate form processing
+                statusMessage.classList.remove('hidden', 'bg-red-100', 'text-red-700');
+                statusMessage.classList.add('bg-green-100', 'text-green-700');
+                
+                // Success message confirming routing to the user's specified email
+                statusMessage.textContent = 'Thank you! Your consultation request has been received (simulated delivery to inbox.jeremypierce@gmail.com). We will contact you within one business day.';
+
+                // Clear form fields
+                form.reset();
+            });
+        });
+    </script>
+</body>
+</html>
+
